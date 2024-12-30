@@ -97,48 +97,7 @@ Map<String, RouteBreadcrumbModel> get routerParam {
       parentRoute: 'Application',
       childRoute: 'Chat',
     ),
-    '/email/inbox': RouteBreadcrumbModel(
-      //title: 'Inbox',
-      title: l.S.current.inbox,
-      parentRoute: 'Application / Email',
-      childRoute: 'Inbox',
-    ),
-    '/email/starred': RouteBreadcrumbModel(
-      //title: 'Starred',
-      title: l.S.current.starred,
-      parentRoute: 'Application / Email',
-      childRoute: 'Starred',
-    ),
-    '/email/sent': RouteBreadcrumbModel(
-      //title: 'Sent',
-      title: l.S.current.sent,
-      parentRoute: 'Application / Email',
-      childRoute: 'Sent',
-    ),
-    '/email/drafts': RouteBreadcrumbModel(
-      // title: 'Drafts',
-      title: l.S.current.drafts,
-      parentRoute: 'Application / Email',
-      childRoute: 'Drafts',
-    ),
-    '/email/spam': RouteBreadcrumbModel(
-      //title: 'Spam',
-      title: l.S.current.spam,
-      parentRoute: 'Application / Email',
-      childRoute: 'Spam',
-    ),
-    '/email/trash': RouteBreadcrumbModel(
-      //title: 'Trash',
-      title: l.S.current.trash,
-      parentRoute: 'Application / Email',
-      childRoute: 'Trash',
-    ),
-    '/email/details': RouteBreadcrumbModel(
-      //title: 'Details',
-      title: l.S.current.details,
-      parentRoute: 'Application / Email',
-      childRoute: 'Details',
-    ),
+    
     '/projects': RouteBreadcrumbModel(
       //title: 'Projects',
       title: l.S.current.projects,
@@ -301,12 +260,7 @@ Map<String, RouteBreadcrumbModel> get routerParam {
       parentRoute: 'Components',
       childRoute: 'Alerts',
     ),
-    '/components/typography': RouteBreadcrumbModel(
-      //title: 'Typography',
-      title: l.S.current.typography,
-      parentRoute: 'Components',
-      childRoute: 'Typography',
-    ),
+    
     '/components/cards': RouteBreadcrumbModel(
       //title: 'Cards',
       title: l.S.current.cards,
@@ -325,36 +279,14 @@ Map<String, RouteBreadcrumbModel> get routerParam {
       parentRoute: 'Components',
       childRoute: 'Drag & Drop',
     ),
-    '/pages/gallery': RouteBreadcrumbModel(
-      //title: 'Gallery',
-      title: l.S.current.gallery,
-      parentRoute: 'Pages',
-      childRoute: 'Gallery',
-    ),
-    '/pages/maps': RouteBreadcrumbModel(
-      //title: 'Maps',
-      title: l.S.current.maps,
-      parentRoute: 'Pages',
-      childRoute: 'Maps',
-    ),
-    '/pages/pricing': RouteBreadcrumbModel(
-      //title: 'Pricing',
-      title: l.S.current.pricing,
-      parentRoute: 'Pages',
-      childRoute: 'Pricing',
-    ),
+    
     '/pages/tabs-and-pills': RouteBreadcrumbModel(
       // title: 'Tabs & Pills',
       title: l.S.current.tabsPills,
       parentRoute: 'Pages',
       childRoute: 'Tabs & Pills',
     ),
-    '/pages/faqs': RouteBreadcrumbModel(
-      //title: 'FAQs',
-      title: l.S.current.fAQs,
-      parentRoute: 'Pages',
-      childRoute: 'FAQs',
-    ),
+   
     '/pages/404': RouteBreadcrumbModel(
       //title: '404',
       title: l.S.current.error,

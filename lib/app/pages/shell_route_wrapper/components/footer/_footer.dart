@@ -42,53 +42,53 @@ class FooterWidget extends StatelessWidget {
           ),
         ).value,
         color: _theme.colorScheme.primaryContainer,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                '${lang.COPYRIGHT} © ${lang.year} ${AppConfig.organizationName}${constraints.maxWidth <= BreakpointName.SM.start ? '' : ', ${lang.allRightsReserved}'}',
-                style: _textStyle,
-              ),
-            ),
-            Builder(
-              builder: (context) {
-                final _translatedLang =
-                    lang.madeWithFooter(AppConfig.organizationName);
+      //  child: Row(
+        //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         // children: [
+            // Expanded(
+            //   child: Text(
+            //     '${lang.COPYRIGHT} © ${lang.year} ${AppConfig.organizationName}${constraints.maxWidth <= BreakpointName.SM.start ? '' : ', ${lang.allRightsReserved}'}',
+            //     style: _textStyle,
+            //   ),
+            // ),
+          //  Builder(
+           //   builder: (context) {
+                // final _translatedLang =
+                //     lang.madeWithFooter(AppConfig.organizationName);
 
-                const _heart = '❤';
-                final List<String> parts =
-                    _translatedLang.split(RegExp(r'(?=\s)|(?<=\s)'));
+                // const _heart = '❤';
+                // final List<String> parts =
+                //     _translatedLang.split(RegExp(r'(?=\s)|(?<=\s)'));
 
-                return Text.rich(
-                  TextSpan(
-                    children: parts.map((e) {
-                      final _trimmedText = e.trim();
+                // return Text.rich(
+                //   TextSpan(
+                //     children: parts.map((e) {
+                //       final _trimmedText = e.trim();
 
-                      return TextSpan(
-                        text: e,
-                        style: TextStyle(
-                          color: switch (_trimmedText) {
-                            _heart => Colors.red,
-                            AppConfig.organizationName =>
-                              _theme.colorScheme.primary,
-                            _ => null,
-                          },
-                          fontWeight: switch (_trimmedText) {
-                            AppConfig.organizationName => FontWeight.w500,
-                            _ => null,
-                          },
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  style: _textStyle,
-                );
-              },
-            )
-          ],
-        ),
-      ),
-    );
+                //       return TextSpan(
+                //         text: e,
+                //         style: TextStyle(
+                //           color: switch (_trimmedText) {
+                //             _heart => Colors.red,
+                //             AppConfig.organizationName =>
+                //               _theme.colorScheme.primary,
+                //             _ => null,
+                //           },
+                //           fontWeight: switch (_trimmedText) {
+                //             AppConfig.organizationName => FontWeight.w500,
+                //             _ => null,
+                //           },
+                //         ),
+                //       );
+                //     }).toList(),
+                //   ),
+                //   style: _textStyle,
+                // );
+            //  },
+          //  )
+          //],
+       // ),
+    //  ),
+    ));
   }
 }

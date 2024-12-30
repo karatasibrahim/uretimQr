@@ -112,18 +112,7 @@ class _ProjectsViewState extends State<ProjectsView>
         l.S.current.complete,
       ];
 
-  // String selectedPriority = 'All Priority';
-  int selectedPriority = 0;
-  List<String> get priorityList => [
-        l.S.current.allPriority,
-        // "All Priority",
-        l.S.current.low,
-        // "Low",
-        l.S.current.medium,
-        // "Medium",
-        l.S.current.high,
-        // "High",
-      ];
+  
 
   @override
   Widget build(BuildContext context) {
@@ -222,15 +211,7 @@ class _ProjectsViewState extends State<ProjectsView>
                         visible: constraints.maxWidth > 576,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: _padding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              SizedBox(
-                                height: 36,
-                                child: addUserButton(textTheme, context),
-                              ),
-                            ],
-                          ),
+                          
                         ),
                       ),
                     ],
@@ -267,10 +248,7 @@ class _ProjectsViewState extends State<ProjectsView>
                                         textTheme: textTheme),
                                   ),
                                   SizedBox(width: _padding),
-                                  Flexible(
-                                    flex: 1,
-                                    child: addUserButton(textTheme, context),
-                                  ),
+                                
                                 ],
                               ),
                               SizedBox(height: _padding / 2),
@@ -278,13 +256,7 @@ class _ProjectsViewState extends State<ProjectsView>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Flexible(
-                                    flex: 1,
-                                    child: priorityDropDown(
-                                        textTheme: textTheme,
-                                        isMobile: isMobile,
-                                        isTablet: isTablet),
-                                  ),
+                                 
                                   SizedBox(width: _padding),
                                   Expanded(
                                     flex: 2,
@@ -347,13 +319,7 @@ class _ProjectsViewState extends State<ProjectsView>
                                           searchFormField(textTheme: textTheme),
                                     ),
                                     const SizedBox(width: 16.0),
-                                    Flexible(
-                                      flex: 1,
-                                      child: priorityDropDown(
-                                          textTheme: textTheme,
-                                          isMobile: isMobile,
-                                          isTablet: isTablet),
-                                    ),
+                                   
                                   ],
                                 ),
                               ),
@@ -471,35 +437,7 @@ class _ProjectsViewState extends State<ProjectsView>
   }
 
   ///_____________________________________________________________________add_user_button___________________________
-  ElevatedButton addUserButton(TextTheme textTheme, BuildContext context) {
-    final lang = l.S.of(context);
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
-      ),
-      onPressed: () {
-        setState(() {
-          _showFormDialog(context);
-        });
-      },
-      label: Text(
-        lang.addNewUser,
-        //l.S.of(context).addNewUser,
-        //'Add New User',
-        maxLines: 1,
-        style: textTheme.bodySmall?.copyWith(
-          color: AcnooAppColors.kWhiteColor,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      iconAlignment: IconAlignment.start,
-      icon: const Icon(
-        Icons.add_circle_outline_outlined,
-        color: AcnooAppColors.kWhiteColor,
-        size: 20.0,
-      ),
-    );
-  }
+  
 
   ///_____________________________________________________________________pagination_functions_______________________
   int get _totalPages => (_filteredData.length / _rowsPerPage).ceil();
@@ -619,34 +557,7 @@ class _ProjectsViewState extends State<ProjectsView>
   }
 
   ///_______________________________________________________________DropDownList___________________________________
-  Container priorityDropDown(
-      {required bool isTablet,
-      required bool isMobile,
-      required TextTheme textTheme}) {
-    final theme = Theme.of(context);
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 110, minWidth: 100),
-      child: DropdownButtonFormField<int>(
-        dropdownColor: theme.colorScheme.primaryContainer,
-        isExpanded: true,
-        value: selectedPriority,
-        items: priorityList.asMap().entries.map((item) {
-          return DropdownMenuItem<int>(
-            value: item.key,
-            child: Text(
-              item.value,
-              style: textTheme.bodySmall,
-              maxLines: 1,
-            ),
-          );
-        }).toList(),
-        onChanged: (value) {
-          selectedPriority = value!;
-        },
-      ),
-    );
-  }
-
+ 
   ///_______________________________________________________________User_List_Data_Table___________________________
   Theme userListDataTable(BuildContext context) {
     final theme = Theme.of(context);

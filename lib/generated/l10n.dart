@@ -1073,7 +1073,7 @@ class S {
   /// `Search`
   String get search {
     return Intl.message(
-      'Search',
+      'Ara',
       name: 'search',
       desc: '',
       args: [],
@@ -2713,7 +2713,7 @@ class S {
   /// `Showing`
   String get showing {
     return Intl.message(
-      'Showing',
+      'Gösteriliyor',
       name: 'showing',
       desc: '',
       args: [],
@@ -2763,7 +2763,7 @@ class S {
   /// `Show`
   String get show {
     return Intl.message(
-      'Show',
+      'Göster',
       name: 'show',
       desc: '',
       args: [],
@@ -5492,15 +5492,7 @@ class S {
     );
   }
 
-  /// `Email Newsletters`
-  String get EmailNewsletters {
-    return Intl.message(
-      'Email Newsletters',
-      name: 'EmailNewsletters',
-      desc: '',
-      args: [],
-    );
-  }
+  
 
   /// `SEO Meta Descriptions`
   String get SEOMetaDescriptions {
@@ -5711,16 +5703,7 @@ class S {
       args: [],
     );
   }
-
-  /// `Cold Email Outreach`
-  String get ColdEmailOutreach {
-    return Intl.message(
-      'Cold Email Outreach',
-      name: 'ColdEmailOutreach',
-      desc: '',
-      args: [],
-    );
-  }
+ 
 
   /// `Speech Writing`
   String get SpeechWriting {
@@ -6315,7 +6298,7 @@ class S {
   /// `Users List`
   String get usersList {
     return Intl.message(
-      'Users List',
+      'Operatör Listesi',
       name: 'usersList',
       desc: '',
       args: [],
@@ -6391,7 +6374,14 @@ class S {
       args: [],
     );
   }
-
+String get uretimTakip {
+    return Intl.message(
+      'Üretim Takip',
+      name: 'uretimTakip',
+      desc: '',
+      args: [],
+    );
+  }
   /// `Form Select`
   String get formSelect {
     return Intl.message(
@@ -6452,15 +6442,7 @@ class S {
     );
   }
 
-  /// `Typography`
-  String get typography {
-    return Intl.message(
-      'Typography',
-      name: 'typography',
-      desc: '',
-      args: [],
-    );
-  }
+   
 
   /// `Cards`
   String get cards {
@@ -6512,45 +6494,7 @@ class S {
     );
   }
 
-  /// `Gallery`
-  String get gallery {
-    return Intl.message(
-      'Gallery',
-      name: 'gallery',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Maps`
-  String get maps {
-    return Intl.message(
-      'Maps',
-      name: 'maps',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Pricing`
-  String get pricing {
-    return Intl.message(
-      'Pricing',
-      name: 'pricing',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `FAQs`
-  String get fAQs {
-    return Intl.message(
-      'FAQs',
-      name: 'fAQs',
-      desc: '',
-      args: [],
-    );
-  }
+ 
 
   /// `Tabs & Pills`
   String get tabsPills {

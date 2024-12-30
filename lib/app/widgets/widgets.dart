@@ -10,7 +10,6 @@ export 'custom_segment_button/custom_segment_button.dart';
 export 'multipleline_chart/_multiple_line_chart.dart';
 export 'subscription_statics_chart/_subscription_statics_chart.dart';
 export 'minguaan_chart/_minguaan_chart.dart';
-export 'general_earn_widget/_general_earn_widget.dart';
 export 'dialog_header/_dialog_header.dart';
 export 'textfield_wrapper/_textfield_wrapper.dart';
 export 'shadow_container/_shadow_container.dart';

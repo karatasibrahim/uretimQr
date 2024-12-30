@@ -66,23 +66,23 @@ class _ShellRouteWrapperState extends State<ShellRouteWrapper> {
                 ),
 
                 // Route Breadcrumb Widget
-                rf.ResponsiveRowColumnItem(
-                  child: Padding(
-                    padding: rf.ResponsiveValue<EdgeInsetsGeometry>(
-                      context,
-                      conditionalValues: [
-                        rf.Condition.smallerThan(
-                          name: BreakpointName.LG.name,
-                          value: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                        )
-                      ],
-                      defaultValue: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                    ).value,
-                    child: RouteBreadcrumbWidget(
-                      breadcrumbModel: _getCurrentRouterParam(context),
-                    ),
-                  ),
-                ),
+                // rf.ResponsiveRowColumnItem(
+                //   child: Padding(
+                //     padding: rf.ResponsiveValue<EdgeInsetsGeometry>(
+                //       context,
+                //       conditionalValues: [
+                //         rf.Condition.smallerThan(
+                //           name: BreakpointName.LG.name,
+                //           value: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                //         )
+                //       ],
+                //       defaultValue: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                //     ).value,
+                //     child: RouteBreadcrumbWidget(
+                //       breadcrumbModel: _getCurrentRouterParam(context),
+                //     ),
+                //   ),
+                // ),
 
                 // Route Pages
                 rf.ResponsiveRowColumnItem(

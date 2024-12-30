@@ -1,6 +1,7 @@
 // 🎯 Dart imports:
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 // 🐦 Flutter imports:
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,34 @@ import '../../../widgets/widgets.dart';
 import 'add_user_popup.dart';
 import 'demo_model.dart';
 
+class User {
+  final String sicilNo;
+  final String isim;
+  final int inckeyNo;
+  final String aciklama;
+  final String durum;
+  bool isSelected;
+
+  User({
+    required this.sicilNo,
+    required this.isim,
+    required this.inckeyNo,
+    required this.aciklama,
+    required this.durum,
+    this.isSelected = false,
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      sicilNo: json['SICILNO'],
+      isim: json['ISIM'],
+      inckeyNo: json['INCKEYNO'],
+      aciklama: json['ACIKLAMA'],
+      durum: json['DURUM'],
+    );
+  }
+}
+
 class UsersListView extends StatefulWidget {
   const UsersListView({super.key});
 
@@ -32,15 +61,39 @@ class _UsersListViewState extends State<UsersListView> {
   late List<UserDataModel> _filteredData;
   final ScrollController _scrollController = ScrollController();
   final List<UserDataModel> users = AllUsers.allData;
+  List<User> userData = [];
+  bool isLoading = false;
   int _currentPage = 0;
   int _rowsPerPage = 10;
   String _searchQuery = '';
   bool _selectAll = false;
-
+ Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+    const String apiUrl = 'http://192.168.21.46:1880/login';
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+        setState(() {
+          userData = jsonData.map((data) => User.fromJson(data)).toList();
+        });
+      } else {
+        throw Exception('Veri alınamadı: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Hata: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
   @override
   void initState() {
     super.initState();
-    _filteredData = List.from(users);
+      fetchData();
   }
 
   @override
@@ -50,35 +103,26 @@ class _UsersListViewState extends State<UsersListView> {
   }
 
   ///_____________________________________________________________________data__________________________________
-  List<UserDataModel> get _currentPageData {
+  List<User> get _currentPageData {
+    List<User> filteredData = userData;
     if (_searchQuery.isNotEmpty) {
-      _filteredData = users
-          .where(
-            (data) =>
-                data.username
-                    .toLowerCase()
-                    .contains(_searchQuery.toLowerCase()) ||
-                data.email.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                data.phone.contains(
-                  _searchQuery,
-                ),
-          )
-          .toList();
-    } else {
-      _filteredData = List.from(users);
+      filteredData = userData.where((user) {
+        return user.isim.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            user.sicilNo.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+            user.aciklama.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
     }
-
     int start = _currentPage * _rowsPerPage;
     int end = start + _rowsPerPage;
-    return _filteredData.sublist(
-        start, end > _filteredData.length ? _filteredData.length : end);
+    return filteredData.sublist(
+        start, end > filteredData.length ? filteredData.length : end);
   }
 
   ///_____________________________________________________________________Search_query_________________________
   void _setSearchQuery(String query) {
     setState(() {
       _searchQuery = query;
-      _currentPage = 0; // Reset to the first page when searching
+      _currentPage = 0;
     });
   }
 
@@ -153,7 +197,6 @@ class _UsersListViewState extends State<UsersListView> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    //______________________________________________________________________Header__________________
                     isMobile
                         ? Padding(
                             padding: _sizeInfo.padding,
@@ -171,7 +214,6 @@ class _UsersListViewState extends State<UsersListView> {
                                           textTheme: textTheme),
                                     ),
                                     const Spacer(),
-                                    addUserButton(textTheme),
                                   ],
                                 ),
                                 const SizedBox(height: 16.0),
@@ -197,26 +239,23 @@ class _UsersListViewState extends State<UsersListView> {
                                   child: searchFormField(textTheme: textTheme),
                                 ),
                                 Spacer(flex: isTablet || isMobile ? 1 : 2),
-                                addUserButton(textTheme),
                               ],
                             ),
                           ),
 
-                    //______________________________________________________________________Data_table__________________
                     isMobile || isTablet
                         ? RawScrollbar(
                             padding: const EdgeInsets.only(left: 18),
                             trackBorderColor: theme.colorScheme.surface,
                             trackVisibility: true,
                             scrollbarOrientation: ScrollbarOrientation.bottom,
-                            controller: _scrollController,
+                            controller: ScrollController(),
                             thumbVisibility: true,
                             thickness: 8.0,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SingleChildScrollView(
-                                  controller: _scrollController,
                                   scrollDirection: Axis.horizontal,
                                   child: ConstrainedBox(
                                     constraints: BoxConstraints(
@@ -225,18 +264,10 @@ class _UsersListViewState extends State<UsersListView> {
                                     child: userListDataTable(context),
                                   ),
                                 ),
-                                Padding(
-                                  padding: _sizeInfo.padding,
-                                  child: Text(
-                                    '${l.S.of(context).showing} ${_currentPage * _rowsPerPage + 1} ${l.S.of(context).to} ${_currentPage * _rowsPerPage + _currentPageData.length} ${l.S.of(context).OF} ${_filteredData.length} ${l.S.of(context).entries}',
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
                               ],
                             ),
                           )
                         : SingleChildScrollView(
-                            controller: _scrollController,
                             scrollDirection: Axis.horizontal,
                             child: ConstrainedBox(
                               constraints: BoxConstraints(
@@ -244,14 +275,6 @@ class _UsersListViewState extends State<UsersListView> {
                               ),
                               child: userListDataTable(context),
                             ),
-                          ),
-
-                    //______________________________________________________________________footer__________________
-                    isTablet || isMobile
-                        ? const SizedBox.shrink()
-                        : Padding(
-                            padding: _sizeInfo.padding,
-                            child: paginatedSection(theme, textTheme),
                           ),
                   ],
                 );
@@ -264,33 +287,7 @@ class _UsersListViewState extends State<UsersListView> {
   }
 
   ///_____________________________________________________________________add_user_button___________________________
-  ElevatedButton addUserButton(TextTheme textTheme) {
-    final lang = l.S.of(context);
-    return ElevatedButton.icon(
-      style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.fromLTRB(14, 8, 14, 8),
-      ),
-      onPressed: () {
-        setState(() {
-          _showFormDialog(context);
-        });
-      },
-      label: Text(
-        lang.addNewUser,
-        //'Add New User',
-        style: textTheme.bodySmall?.copyWith(
-          color: AcnooAppColors.kWhiteColor,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      iconAlignment: IconAlignment.start,
-      icon: const Icon(
-        Icons.add_circle_outline_outlined,
-        color: AcnooAppColors.kWhiteColor,
-        size: 20.0,
-      ),
-    );
-  }
+  
 
   ///_____________________________________________________________________pagination_functions_______________________
   int get _totalPages => (_filteredData.length / _rowsPerPage).ceil();
@@ -406,171 +403,45 @@ class _UsersListViewState extends State<UsersListView> {
   }
 
   ///_______________________________________________________________User_List_Data_Table___________________________
-  Theme userListDataTable(BuildContext context) {
-    final lang = l.S.of(context);
+  Widget userListDataTable(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    return Theme(
-      data: ThemeData(
-          dividerColor: theme.colorScheme.outline,
-          dividerTheme: DividerThemeData(
-            color: theme.colorScheme.outline,
-          )),
-      child: DataTable(
-        checkboxHorizontalMargin: 16,
-        headingTextStyle: textTheme.titleMedium,
-        dataTextStyle: textTheme.bodySmall,
-        headingRowColor: WidgetStateProperty.all(theme.colorScheme.surface),
-        showBottomBorder: true,
-        columns: [
-          DataColumn(
-            label: Row(
-              children: [
-                Checkbox(
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -4),
-                  value: _selectAll,
-                  onChanged: (value) {
-                    _selectAllRows(value ?? false);
-                  },
-                ),
-                const SizedBox(width: 12.0),
-                //Text('Serial'),
-                Text(lang.serial),
-              ],
-            ),
-          ),
-          DataColumn(label: Text(lang.registeredOn)),
-          DataColumn(label: Text(lang.userName)),
-          DataColumn(label: Text(lang.email)),
-          DataColumn(label: Text(lang.phone)),
-          DataColumn(label: Text(lang.position)),
-          DataColumn(label: Text(lang.status)),
-          DataColumn(label: Text(lang.actions)),
-        ],
-        rows: _currentPageData.map(
-          (data) {
-            return DataRow(
-              color: WidgetStateColor.transparent,
-              selected: data.isSelected,
-              cells: [
-                DataCell(
-                  Row(
-                    children: [
-                      Checkbox(
-                        visualDensity:
-                            const VisualDensity(horizontal: -4, vertical: -4),
-                        value: data.isSelected,
-                        onChanged: (selected) {
-                          setState(() {
-                            data.isSelected = selected ?? false;
-                            _selectAll =
-                                _currentPageData.every((d) => d.isSelected);
-                          });
-                        },
-                      ),
-                      const SizedBox(width: 12.0),
-                      Text(data.id.toString())
-                    ],
-                  ),
-                ),
-                DataCell(
-                  Text(DateFormat('d MMM yyyy').format(DateTime.now())),
-                ),
-                DataCell(Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: AvatarWidget(
-                          fit: BoxFit.cover,
-                          avatarShape: AvatarShape.circle,
-                          size: const Size(40, 40),
-                          imagePath: data.imagePath),
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(data.username),
-                  ],
-                )),
-                DataCell(Text(data.email)),
-                DataCell(Text(data.phone)),
-                DataCell(Text(data.position)),
-                DataCell(
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: data.status == 'Active'
-                          ? AcnooAppColors.kSuccess.withOpacity(0.2)
-                          : AcnooAppColors.kError.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: Text(
-                      data.status,
-                      style: textTheme.bodySmall?.copyWith(
-                          color: data.status == 'Active'
-                              ? AcnooAppColors.kSuccess
-                              : AcnooAppColors.kError),
-                    ),
-                  ),
-                ),
-                DataCell(
-                  PopupMenuButton<String>(
-                    iconColor: theme.colorScheme.onTertiary,
-                    color: theme.colorScheme.primaryContainer,
-                    onSelected: (action) {
-                      switch (action) {
-                        case 'Edit':
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('${lang.edit} ${data.username}')),
-                          );
-                          break;
-                        case 'View':
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text('${lang.viewed} ${data.username}')),
-                          );
-                          break;
-                        case 'Delete':
-                          setState(() {
-                            users.remove(data);
-                            _filteredData.remove(data);
-                          });
-                          break;
-                      }
-                    },
-                    itemBuilder: (context) {
-                      return [
-                        PopupMenuItem<String>(
-                          value: 'Edit',
-                          child: Text(
-                            lang.edit,
-                            //'Edit',
-                            style: textTheme.bodyMedium,
-                          ),
-                        ),
-                        PopupMenuItem<String>(
-                          value: 'View',
-                          child: Text(lang.view,
-                              // 'View',
-                              style: textTheme.bodyMedium),
-                        ),
-                        PopupMenuItem<String>(
-                          value: 'Delete',
-                          child: Text(lang.delete,
-                              // 'Delete',
-                              style: textTheme.bodyMedium),
-                        ),
-                      ];
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        ).toList(),
+
+    return DataTable(
+      columnSpacing: 16,
+      headingRowColor: MaterialStateProperty.all(
+          theme.colorScheme.primaryContainer),
+      headingTextStyle: textTheme.bodyMedium?.copyWith(
+        color: theme.colorScheme.onPrimaryContainer,
+        fontWeight: FontWeight.bold,
       ),
+      dataRowColor: MaterialStateProperty.all(
+          theme.colorScheme.surfaceVariant),
+      dataTextStyle: textTheme.bodySmall,
+      columns: const [
+        DataColumn(label: Text("Sicil No")),
+        DataColumn(label: Text("İsim")),
+        DataColumn(label: Text("INCKEYNO")),
+        DataColumn(label: Text("Açıklama")),
+        DataColumn(label: Text("Durum")),
+      ],
+      rows: _currentPageData.map((user) {
+        return DataRow(
+          selected: user.isSelected,
+          onSelectChanged: (selected) {
+            setState(() {
+              user.isSelected = selected ?? false;
+            });
+          },
+          cells: [
+            DataCell(Text(user.sicilNo)),
+            DataCell(Text(user.isim)),
+            DataCell(Text(user.inckeyNo.toString())),
+            DataCell(Text(user.aciklama)),
+            DataCell(Text(user.durum == "Aktif" ? "Aktif" : "Pasif")),
+          ],
+        );
+      }).toList(),
     );
   }
 

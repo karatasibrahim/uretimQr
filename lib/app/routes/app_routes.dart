@@ -27,7 +27,7 @@ abstract class AcnooAppRoutes {
           if (state.uri.queryParameters['rtl'] == 'true') {
             _appLangProvider.isRTL = true;
           }
-          return '/dashboard/ecommerce-admin';
+          return '/dashboard/erp-admin';
         },
       ),
 
@@ -45,65 +45,24 @@ abstract class AcnooAppRoutes {
             path: '/dashboard',
             redirect: (context, state) async {
               if (state.fullPath == '/dashboard') {
-                return '/dashboard/ecommerce-admin';
+                return '/dashboard/erp-admin';
               }
               return null;
             },
             routes: [
-              GoRoute(
-                path: 'ecommerce-admin',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ECommerceAdminDashboardView(),
-                ),
-              ),
-              GoRoute(
-                path: 'open-ai-admin',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: OpenAIDashboardView(),
-                ),
-              ),
+        
+          
               GoRoute(
                 path: 'erp-admin',
                 pageBuilder: (context, state) => const NoTransitionPage(
                   child: ERPAdminDashboardView(),
                 ),
               ),
-              GoRoute(
-                path: 'pos-admin',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSAdminDashboard(),
-                ),
-              ),
-              GoRoute(
-                path: 'earning-admin',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: RewardEarningAdminDashboard(),
-                ),
-              ),
-              GoRoute(
-                path: 'sms-admin',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: SMSAdminDashboard(),
-                ),
-              ),
-              GoRoute(
-                path: 'influencer-admin',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: InfluencerAdminDashboard(),
-                ),
-              ),
-              GoRoute(
-                path: 'hrm-admin',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: HRMAdminDashboard(),
-                ),
-              ),
-              GoRoute(
-                path: 'news-admin',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: NewsAdminDashboard(),
-                ),
-              )
+             
+      
+     
+       
+         
             ],
           ),
 
@@ -116,35 +75,11 @@ abstract class AcnooAppRoutes {
               }
               return null;
             },
-            routes: [
-              GoRoute(
-                path: 'general-widgets',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: GeneralWidgetsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'chart-widgets',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: ChartWidgetsView(),
-                ),
-              ),
-            ],
+        
           ),
 
           //--------------Application Section--------------//
-          GoRoute(
-            path: '/calendar',
-            pageBuilder: (context, state) => const NoTransitionPage<void>(
-              child: CalendarView(),
-            ),
-          ),
-          GoRoute(
-            path: '/chat',
-            pageBuilder: (context, state) => const NoTransitionPage<void>(
-              child: ChatView(),
-            ),
-          ),
+          
 
           // Email Shell Routes
           GoRoute(
@@ -155,80 +90,7 @@ abstract class AcnooAppRoutes {
               }
               return null;
             },
-            routes: [
-              ShellRoute(
-                navigatorKey: _emailShellNavigatorKey,
-                pageBuilder: (context, state, child) {
-                  return NoTransitionPage(
-                    child: EmailView(child: child),
-                  );
-                },
-                routes: [
-                  GoRoute(
-                    path: 'inbox',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailInboxView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'starred',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailStarredView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'sent',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailSentView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'drafts',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailDraftsView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'spam',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailSpamView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: 'trash',
-                    parentNavigatorKey: _emailShellNavigatorKey,
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailTrashView(),
-                      );
-                    },
-                  ),
-                  GoRoute(
-                    path: ':folder/details',
-                    pageBuilder: (context, state) {
-                      return const NoTransitionPage<void>(
-                        child: EmailDetailsView(),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ],
+        
           ),
 
           GoRoute(
@@ -237,150 +99,9 @@ abstract class AcnooAppRoutes {
               child: ProjectsView(),
             ),
           ),
-          GoRoute(
-            path: '/kanban',
-            pageBuilder: (context, state) => const NoTransitionPage<void>(
-              child: KanbanView(),
-            ),
-          ),
-
-          // E-Commerce Routes
-          GoRoute(
-            path: '/ecommerce',
-            redirect: (context, state) async {
-              if (state.fullPath == '/ecommerce') {
-                return '/ecommerce/product-list';
-              }
-              return null;
-            },
-            routes: [
-              GoRoute(
-                path: "product-list",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ProductListView(),
-                ),
-              ),
-              GoRoute(
-                path: "product-details",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: ProductDetailsView(),
-                ),
-              ),
-              GoRoute(
-                path: "cart",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CartView(),
-                ),
-              ),
-              GoRoute(
-                path: "checkout",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: CheckoutView(),
-                ),
-              ),
-            ],
-          ),
-
-          // POS Inventory Routes
-          GoRoute(
-            path: '/pos-inventory',
-            redirect: (context, state) async {
-              if (state.fullPath == '/pos-inventory') {
-                return '/pos-inventory/sale';
-              }
-              return null;
-            },
-            routes: [
-              GoRoute(
-                path: "sale",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSSaleView(),
-                ),
-              ),
-              GoRoute(
-                path: "sale-list",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSSaleListView(),
-                ),
-              ),
-              GoRoute(
-                path: "purchase",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSPurchaseView(),
-                ),
-              ),
-              GoRoute(
-                path: "purchase-list",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSPurchaseListView(),
-                ),
-              ),
-              GoRoute(
-                path: "product",
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: POSProductView(),
-                ),
-              ),
-            ],
-          ),
-
-          // Open AI Routes
-          GoRoute(
-            path: '/open-ai',
-            redirect: (context, state) async {
-              if (state.fullPath == '/open-ai') {
-                return '/open-ai/ai-writter';
-              }
-              return null;
-            },
-            routes: [
-              GoRoute(
-                path: 'ai-writter',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AiWriterView(),
-                ),
-              ),
-              GoRoute(
-                path: 'ai-image',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AiImageView(),
-                ),
-              ),
-              StatefulShellRoute.indexedStack(
-                pageBuilder: (context, state, page) {
-                  AIChatPageListener.initialize(page);
-                  return NoTransitionPage(
-                    child: AiChatView(page: page),
-                  );
-                },
-                branches: [
-                  StatefulShellBranch(
-                    routes: [
-                      GoRoute(
-                        path: 'ai-chat',
-                        pageBuilder: (context, state) => const NoTransitionPage(
-                          child: AIChatDetailsView(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              GoRoute(
-                path: 'ai-code',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AiCodeView(),
-                ),
-              ),
-              GoRoute(
-                path: 'ai-voiceover',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AiVoiceoverView(),
-                ),
-              ),
-            ],
-          ),
-
+        
+ 
+           
           // Users Route
           GoRoute(
             path: '/users',
@@ -423,20 +144,7 @@ abstract class AcnooAppRoutes {
               }
               return null;
             },
-            routes: [
-              GoRoute(
-                path: 'basic-table',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: BasicTableView(),
-                ),
-              ),
-              GoRoute(
-                path: 'data-table',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: DataTableView(),
-                ),
-              ),
-            ],
+         
           ),
 
           GoRoute(
@@ -479,50 +187,7 @@ abstract class AcnooAppRoutes {
               }
               return null;
             },
-            routes: [
-              GoRoute(
-                path: 'buttons',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: ButtonsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'colors',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: ColorsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'alerts',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AlertsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'typography',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: TypographyView(),
-                ),
-              ),
-              GoRoute(
-                path: 'cards',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: CardsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'avatars',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: AvatarsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'dragndrop',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: DragAndDropView(),
-                ),
-              ),
-            ],
+           
           ),
           //--------------Components--------------//
 
@@ -536,24 +201,7 @@ abstract class AcnooAppRoutes {
               return null;
             },
             routes: [
-              GoRoute(
-                path: 'gallery',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: GalleryView(),
-                ),
-              ),
-              GoRoute(
-                path: 'maps',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: MapsView(),
-                ),
-              ),
-              GoRoute(
-                path: 'pricing',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: PricingView(),
-                ),
-              ),
+              
               GoRoute(
                 path: 'tabs-and-pills',
                 pageBuilder: (context, state) => const NoTransitionPage<void>(
@@ -566,12 +214,7 @@ abstract class AcnooAppRoutes {
                   child: NotFoundView(),
                 ),
               ),
-              GoRoute(
-                path: 'faqs',
-                pageBuilder: (context, state) => const NoTransitionPage<void>(
-                  child: FaqView(),
-                ),
-              ),
+            
               GoRoute(
                 path: 'privacy-policy',
                 pageBuilder: (context, state) => const NoTransitionPage<void>(
